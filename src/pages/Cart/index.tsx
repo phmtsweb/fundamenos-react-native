@@ -40,22 +40,32 @@ const Cart: React.FC = () => {
 
   function handleIncrement(id: string): void {
     // TODO
+    increment(id);
   }
 
   function handleDecrement(id: string): void {
     // TODO
+    decrement(id);
   }
 
   const cartTotal = useMemo(() => {
     // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
+    const total = products.reduce<number>(
+      (totalTmp, { price, quantity }) => totalTmp + price * quantity,
+      0,
+    );
 
-    return formatValue(0);
+    return formatValue(total);
   }, [products]);
 
   const totalItensInCart = useMemo(() => {
     // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
+    const totalItens = products.reduce<number>(
+      (totalQuantity, { quantity }) => totalQuantity + quantity,
+      0,
+    );
 
-    return 0;
+    return totalItens;
   }, [products]);
 
   return (
@@ -98,7 +108,11 @@ const Cart: React.FC = () => {
                   testID={`decrement-${item.id}`}
                   onPress={() => handleDecrement(item.id)}
                 >
-                  <FeatherIcon name="minus" color="#E83F5B" size={16} />
+                  {item.quantity > 1 ? (
+                    <FeatherIcon name="minus" color="#E83F5B" size={16} />
+                  ) : (
+                    <FeatherIcon name="trash-2" color="#E83F5B" size={16} />
+                  )}
                 </ActionButton>
               </ActionContainer>
             </Product>
